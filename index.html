@@ -3,210 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrasi Nasabah Baru</title>
+    <title>Registrasi Nasabah Baru - Multi Step</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* [CSS sebelumnya tetap sama, tambahkan ini] */
+        
+        .step-container {
+            display: none;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+        .step-container.active {
+            display: block;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 450px;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
+            font-weight: bold;
+            color: white;
+            background: #e1e5e9;
+            transition: all 0.3s ease;
             position: relative;
         }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
+        
+        .step.active {
+            background: #667eea;
+            transform: scale(1.1);
         }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
+        
+        .step.completed {
+            background: #28a745;
         }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+        
+        .step.completed::after {
+            content: '✓';
+            position: absolute;
+            font-size: 18px;
         }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        
+        .step.active::after {
+            content: '';
         }
-
-        .error {
-            border-color: #ff4444 !important;
-        }
-
-        .error-message {
-            color: #ff4444;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .row {
+        
+        .nav-buttons {
             display: flex;
             gap: 15px;
+            margin-top: 30px;
         }
-
-        .row .form-group {
+        
+        .btn-prev, .btn-next {
             flex: 1;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            transform: scale(1.2);
-            margin-top: 2px;
-        }
-
-        .checkbox-group label {
-            margin: 0;
-            font-weight: normal;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 12px;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
-
-        .btn:hover:not(:disabled) {
+        
+        .btn-prev {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-prev:hover:not(:disabled), .btn-next:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn:disabled {
-            opacity: 0.7;
+        
+        .btn-prev:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
-
-        .success-message {
-            display: none;
-            background: #d4edda;
-            color: #155724;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #c3e6cb;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .success-final {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            padding: 40px;
-            text-align: center;
-        }
-
-        .success-final h2 {
-            color: #155724;
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .success-final p {
-            color: #155724;
-            margin-bottom: 25px;
-            font-size: 16px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        
         @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
-            
-            .row {
+            .nav-buttons {
                 flex-direction: column;
-                gap: 0;
             }
         }
     </style>
@@ -215,87 +102,253 @@
     <div class="container" id="mainContainer">
         <div class="header">
             <h1>📋 Registrasi Nasabah</h1>
-            <p>Silahkan lengkapi data Anda untuk registrasi</p>
+            <p>Langkah 1 dari 3 - Lengkapi data secara bertahap</p>
         </div>
 
         <form id="registrationForm">
-            <div class="success-message" id="tempSuccess"></div>
-            
-            <div class="form-group">
-                <label for="nama">Nama Lengkap *</label>
-                <input type="text" id="nama" name="nama" required>
-                <div class="error-message" id="err-nama"></div>
+            <div class="step-indicator" id="stepIndicator">
+                <div class="step active" data-step="1">1</div>
+                <div class="step" data-step="2">2</div>
+                <div class="step" data-step="3">3</div>
             </div>
 
-            <div class="row">
+            <!-- STEP 1: Data Pribadi -->
+            <div class="step-container active" data-step="1">
+                <h3 style="color: #333; margin-bottom: 20px; font-size: 18px;">Data Diri Nasabah</h3>
+                
                 <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" name="email" required>
-                    <div class="error-message" id="err-email"></div>
+                    <label for="nama">Nama Lengkap *</label>
+                    <input type="text" id="nama" name="nama" required>
+                    <div class="error-message" id="err-nama"></div>
                 </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error-message" id="err-email"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="noHp">No. HP *</label>
+                        <input type="tel" id="noHp" name="noHp" required>
+                        <div class="error-message" id="err-noHp"></div>
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="noHp">No. HP *</label>
-                    <input type="tel" id="noHp" name="noHp" required>
-                    <div class="error-message" id="err-noHp"></div>
+                    <label for="alamat">Alamat Lengkap *</label>
+                    <textarea id="alamat" name="alamat" required></textarea>
+                    <div class="error-message" id="err-alamat"></div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="kota">Kota *</label>
+                        <select id="kota" name="kota" required>
+                            <option value="">Pilih Kota</option>
+                            <option value="Jakarta">Jakarta</option>
+                            <option value="Bandung">Bandung</option>
+                            <option value="Surabaya">Surabaya</option>
+                            <option value="Medan">Medan</option>
+                            <option value="Semarang">Semarang</option>
+                            <option value="Yogyakarta">Yogyakarta</option>
+                            <option value="Makassar">Makassar</option>
+                        </select>
+                        <div class="error-message" id="err-kota"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="kodePos">Kode Pos</label>
+                        <input type="text" id="kodePos" name="kodePos">
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn-prev" id="prev1" disabled>Lanjut</button>
+                    <button type="button" class="btn-next" id="next1">Lanjut ke Data Pasangan →</button>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="alamat">Alamat Lengkap *</label>
-                <textarea id="alamat" name="alamat" required></textarea>
-                <div class="error-message" id="err-alamat"></div>
-            </div>
-
-            <div class="row">
+            <!-- STEP 2: Data Pasangan -->
+            <div class="step-container" data-step="2">
+                <h3 style="color: #333; margin-bottom: 20px; font-size: 18px;">Data Pasangan</h3>
+                
                 <div class="form-group">
-                    <label for="kota">Kota *</label>
-                    <select id="kota" name="kota" required>
-                        <option value="">Pilih Kota</option>
-                        <option value="Jakarta">Jakarta</option>
-                        <option value="Bandung">Bandung</option>
-                        <option value="Surabaya">Surabaya</option>
-                        <option value="Medan">Medan</option>
-                        <option value="Semarang">Semarang</option>
-                        <option value="Yogyakarta">Yogyakarta</option>
-                        <option value="Makassar">Makassar</option>
+                    <label for="namaPasangan">Nama Lengkap Pasangan *</label>
+                    <input type="text" id="namaPasangan" name="namaPasangan" required>
+                    <div class="error-message" id="err-namaPasangan"></div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="emailPasangan">Email Pasangan</label>
+                        <input type="email" id="emailPasangan" name="emailPasangan">
+                    </div>
+                    <div class="form-group">
+                        <label for="noHpPasangan">No. HP Pasangan *</label>
+                        <input type="tel" id="noHpPasangan" name="noHpPasangan" required>
+                        <div class="error-message" id="err-noHpPasangan"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pekerjaanPasangan">Pekerjaan Pasangan *</label>
+                    <select id="pekerjaanPasangan" name="pekerjaanPasangan" required>
+                        <option value="">Pilih Pekerjaan</option>
+                        <option value="Karyawan Swasta">Karyawan Swasta</option>
+                        <option value="PNS/TNI/POLRI">PNS/TNI/POLRI</option>
+                        <option value="Wiraswasta">Wiraswasta</option>
+                        <option value="Dokter">Dokter</option>
+                        <option value="Pengacara">Pengacara</option>
+                        <option value="Lainnya">Lainnya</option>
                     </select>
-                    <div class="error-message" id="err-kota"></div>
+                    <div class="error-message" id="err-pekerjaanPasangan"></div>
                 </div>
-                <div class="form-group">
-                    <label for="kodePos">Kode Pos</label>
-                    <input type="text" id="kodePos" name="kodePos">
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn-prev" id="prev2">← Kembali</button>
+                    <button type="button" class="btn-next" id="next2">Lanjut ke Konfirmasi →</button>
                 </div>
             </div>
 
-            <div class="checkbox-group">
-                <input type="checkbox" id="setuju" name="setuju">
-                <label for="setuju">
-                    Saya setuju dengan <a href="#" style="color: #667eea; text-decoration: none;">Syarat & Ketentuan</a> *
-                </label>
-            </div>
-            <div class="error-message" id="err-setuju" style="text-align: center;"></div>
+            <!-- STEP 3: Konfirmasi -->
+            <div class="step-container" data-step="3">
+                <h3 style="color: #333; margin-bottom: 20px; font-size: 18px;">Konfirmasi Data</h3>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h4>📋 Data Nasabah:</h4>
+                    <p><strong>Nama:</strong> <span id="previewNama">-</span></p>
+                    <p><strong>Email:</strong> <span id="previewEmail">-</span></p>
+                    <p><strong>HP:</strong> <span id="previewNoHp">-</span></p>
+                </div>
 
-            <button type="submit" class="btn" id="submitBtn">Daftar Sekarang</button>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h4>💑 Data Pasangan:</h4>
+                    <p><strong>Nama:</strong> <span id="previewNamaPasangan">-</span></p>
+                    <p><strong>HP:</strong> <span id="previewNoHpPasangan">-</span></p>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="setuju" name="setuju" required>
+                    <label for="setuju">
+                        Saya setuju dengan <a href="#" style="color: #667eea; text-decoration: none;">Syarat & Ketentuan</a> *
+                    </label>
+                </div>
+                <div class="error-message" id="err-setuju" style="text-align: center;"></div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn-prev" id="prev3">← Kembali</button>
+                    <button type="submit" class="btn-next" id="submitBtn">✅ Daftar Sekarang</button>
+                </div>
+            </div>
         </form>
     </div>
 
     <script>
-        const form = document.getElementById('registrationForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const tempSuccess = document.getElementById('tempSuccess');
-        const container = document.getElementById('mainContainer');
-
-        // Validasi real-time
-        ['nama', 'email', 'noHp', 'alamat', 'kota'].forEach(id => {
+        // [CSS dan validasi sebelumnya tetap sama, tambahkan ini]
+        
+        let currentStep = 1;
+        const totalSteps = 3;
+        
+        // Update header step
+        function updateHeader() {
+            const headerP = document.querySelector('.header p');
+            headerP.textContent = `Langkah ${currentStep} dari ${totalSteps}`;
+        }
+        
+        // Update step indicator
+        function updateStepIndicator() {
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'completed');
+                
+                if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNum === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        // Show specific step
+        function showStep(stepNum) {
+            document.querySelectorAll('.step-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.querySelector(`[data-step="${stepNum}"]`).classList.add('active');
+            
+            currentStep = stepNum;
+            updateStepIndicator();
+            updateHeader();
+            
+            // Scroll to top
+            document.getElementById('mainContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Validate current step
+        function validateCurrentStep() {
+            let isValid = true;
+            const stepFields = {
+                1: ['nama', 'email', 'noHp', 'alamat', 'kota'],
+                2: ['namaPasangan', 'noHpPasangan', 'pekerjaanPasangan'],
+                3: ['setuju']
+            };
+            
+            stepFields[currentStep].forEach(id => {
+                const input = document.getElementById(id);
+                if (!input.value.trim()) {
+                    validateField(id);
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+        
+        // Next step
+        function nextStep() {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    showStep(currentStep + 1);
+                }
+            }
+        }
+        
+        // Previous step
+        function prevStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+        
+        // Update preview data
+        function updatePreview() {
+            document.getElementById('previewNama').textContent = document.getElementById('nama').value || '-';
+            document.getElementById('previewEmail').textContent = document.getElementById('email').value || '-';
+            document.getElementById('previewNoHp').textContent = document.getElementById('noHp').value || '-';
+            document.getElementById('previewNamaPasangan').textContent = document.getElementById('namaPasangan').value || '-';
+            document.getElementById('previewNoHpPasangan').textContent = document.getElementById('noHpPasangan').value || '-';
+        }
+        
+        // Event listeners untuk navigation
+        document.getElementById('next1').addEventListener('click', nextStep);
+        document.getElementById('next2').addEventListener('click', nextStep);
+        
+        document.getElementById('prev2').addEventListener('click', prevStep);
+        document.getElementById('prev3').addEventListener('click', prevStep);
+        
+        // Real-time preview update
+        ['nama', 'email', 'noHp', 'namaPasangan', 'noHpPasangan'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePreview);
+        });
+        
+        // Tambah validasi untuk field baru
+        ['namaPasangan', 'noHpPasangan', 'pekerjaanPasangan'].forEach(id => {
             const input = document.getElementById(id);
             input.addEventListener('blur', () => validateField(id));
             input.addEventListener('input', () => clearError(id));
         });
-
-        document.getElementById('setuju').addEventListener('change', () => {
-            clearError('setuju');
-        });
-
+        
+        // Validasi tambahan untuk field baru
         function validateField(id) {
             const input = document.getElementById(id);
             const errorEl = document.getElementById(`err-${id}`);
@@ -305,10 +358,10 @@
             if (!input.value.trim()) {
                 isValid = false;
                 errorMsg = 'Field ini wajib diisi';
-            } else if (id === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+            } else if ((id === 'email' || id === 'emailPasangan') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
                 isValid = false;
                 errorMsg = 'Format email tidak valid';
-            } else if (id === 'noHp' && !/^\d{10,13}$/.test(input.value.replace(/\D/g, ''))) {
+            } else if ((id === 'noHp' || id === 'noHpPasangan') && !/^\d{10,13}$/.test(input.value.replace(/\D/g, ''))) {
                 isValid = false;
                 errorMsg = 'No. HP minimal 10 digit';
             }
@@ -319,80 +372,42 @@
                 errorEl.style.display = 'block';
             } else {
                 input.classList.remove('error');
+                errorEl.style.display = 'none';
             }
         }
-
-        function clearError(id) {
-            const input = document.getElementById(id);
-            const errorEl = document.getElementById(`err-${id}`);
-            input.classList.remove('error');
-            errorEl.style.display = 'none';
-        }
-
-        function validateForm() {
-            let isValid = true;
-            
-            ['nama', 'email', 'noHp', 'alamat', 'kota'].forEach(id => {
-                validateField(id);
-                if (!document.getElementById(id).value.trim()) isValid = false;
-            });
-
-            if (!document.getElementById('setuju').checked) {
-                document.getElementById('err-setuju').textContent = 'Anda harus menyetujui Syarat & Ketentuan';
-                document.getElementById('err-setuju').style.display = 'block';
-                isValid = false;
-            }
-
-            return isValid;
-        }
-
+        
+        // Form submit (tetap sama seperti sebelumnya)
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (!validateForm()) {
+            if (!document.getElementById('setuju').checked) {
+                document.getElementById('err-setuju').textContent = 'Anda harus menyetujui Syarat & Ketentuan';
+                document.getElementById('err-setuju').style.display = 'block';
                 return;
             }
 
-            // Simulasi proses
             const originalText = submitBtn.textContent;
             submitBtn.textContent = '⏳ Memproses...';
             submitBtn.disabled = true;
 
             setTimeout(() => {
-                // Tampilkan pesan sukses sementara
-                tempSuccess.innerHTML = `
-                    ✅ <strong>Registrasi Berhasil!</strong><br>
-                    Data nasabah sedang disimpan ke database...
+                const nama = document.getElementById('nama').value;
+                const email = document.getElementById('email').value;
+                
+                container.innerHTML = `
+                    <div class="success-final">
+                        <h2>🎉 Selamat!</h2>
+                        <p><strong>${nama}</strong>,<br>Data registrasi Anda telah berhasil tersimpan.</p>
+                        <p>📧 Konfirmasi akan dikirim ke: <strong>${email}</strong></p>
+                        <p><small>ID Registrasi: #NAS${Date.now().toString().slice(-6)}</small></p>
+                        <button onclick="location.reload()" class="btn">📝 Registrasi Baru</button>
+                    </div>
                 `;
-                tempSuccess.style.display = 'block';
-
-                // Simulasi finalisasi
-                setTimeout(() => {
-                    const nama = document.getElementById('nama').value;
-                    const email = document.getElementById('email').value;
-                    
-                    container.innerHTML = `
-                        <div class="success-final">
-                            <h2>🎉 Selamat!</h2>
-                            <p><strong>${nama}</strong>,<br>Data registrasi Anda telah berhasil tersimpan.</p>
-                            <p>📧 Konfirmasi akan dikirim ke: <strong>${email}</strong></p>
-                            <p><small>ID Registrasi: #NAS${Date.now().toString().slice(-6)}</small></p>
-                            <button onclick="location.reload()" class="btn">
-                                📝 Registrasi Baru
-                            </button>
-                            <p style="margin-top: 20px; font-size: 12px; opacity: 0.8;">
-                                Atau tunggu 5 detik untuk otomatis refresh...
-                            </p>
-                        </div>
-                    `;
-
-                    // Auto refresh setelah 5 detik
-                    setTimeout(() => {
-                        location.reload();
-                    }, 5000);
-                }, 1500);
             }, 2000);
         });
+        
+        // Inisialisasi preview
+        updatePreview();
     </script>
 </body>
 </html>
