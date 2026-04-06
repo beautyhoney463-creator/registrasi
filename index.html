@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi & Dashboard Nasabah</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-university"></i>
+                <span>PT BANK PEREKONOMIAN RAKYAT BANDUNG KIDUL</span>
+            </div>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link active" onclick="showSection('dashboard')">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#registrasi" class="nav-link" onclick="showSection('registrasi')">Registrasi Nasabah</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <h1><i class="fas fa-tachometer-alt"></i> Dashboard Nasabah</h1>
+                
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <h3 id="total-nasabah">0</h3>
+                            <p>Total Nasabah</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-wallet"></i>
+                        <div>
+                            <h3 id="total-rekening">0</h3>
+                            <p>Total Rekening</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart"></i>
+                        <div>
+                            <h3 id="total-pasangan">0</h3>
+                            <p>Data Pasangan</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-friends"></i>
+                        <div>
+                            <h3 id="total-ahli-waris">0</h3>
+                            <p>Total Ahli Waris</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nasabah Table -->
+                <div class="table-container">
+                    <h2>Daftar Nasabah</h2>
+                    <div class="table-header">
+                        <input type="text" id="search-nasabah" placeholder="Cari nasabah..." onkeyup="searchNasabah()">
+                        <button class="btn btn-primary" onclick="exportData()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="nasabah-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Lengkap</th>
+                                    <th>NIK</th>
+                                    <th>Telepon</th>
+                                    <th>Tgl Registrasi</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="nasabah-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registrasi Section -->
+        <section id="registrasi" class="section">
+            <div class="container">
+                <h1><i class="fas fa-user-plus"></i> Registrasi Nasabah Baru</h1>
+                
+                <!-- Form Steps -->
+                <div class="form-steps">
+                    <div class="step active" data-step="1">
+                        <h3>Data Nasabah Utama</h3>
+                        <form id="form-nasabah">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Nomor Registrasi *</label>
+                                    <input type="text" id="nomor_registrasi" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tanggal Registrasi *</label>
+                                    <input type="date" id="tanggal_registrasi" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Lengkap *</label>
+                                    <input type="text" id="nama_lengkap" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor KTP *</label>
+                                    <input type="text" id="nomor_ktp" required maxlength="16">Harus berisikan 16 angka
+                                </div>
+                                <div class="form-group">
+                                    <label>Tempat, Tanggal Lahir *</label>
+                                    <div class="input-row">
+                                        <input type="text" id="tempat_lahir" placeholder="Tempat lahir">
+                                        <input type="date" id="tanggal_lahir">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Jenis Kelamin *</label>
+                                    <select id="jenis_kelamin" required>
+                                        <option value="">Pilih...</option>
+                                        <option value="Laki-laki">Laki-laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat *</label>
+                                    <textarea id="alamat" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor Telepon *</label>
+                                    <input type="tel" id="nomor_telepon" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Pekerjaan *</label>
+                                    <input type="text" id="pekerjaan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Penghasilan (Rp) *</label>
+                                   <select id="penghasilan" required>
+                                        <option value="">Pilih...</option>
+                                        <option value=" Rp 1.000.000"> Rp 1.000.000</option>
+                                        <option value=" Rp 1.000.000 - Rp 2.000.0000"> Rp 1.000.000 - Rp 2.000.0000</option>
+                                        <option value=" Rp 2.000.000 - Rp 3.000.0000"> Rp 2.000.000 - Rp 3.000.0000</option>
+                                        <option value=" Rp 3.000.000 - Rp 4.000.0000"> Rp 3.000.000 - Rp 4.000.0000</option>
+                                        <option value=" Rp 4.000.000 - Rp 5.000.0000"> Rp 4.000.000 - Rp 5.000.0000</option>
+                                   </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status Perkawinan *</label>
+                                    <select id="status_perkawinan" required>
+                                        <option value="">Pilih...</option>
+                                        <option value="Belum Kawin">Belum Kawin</option>
+                                        <option value="Kawin">Kawin</option>
+                                        <option value="Cerai Hidup">Cerai Hidup</option>
+                                        <option value="Cerai Mati">Cerai Mati</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Agama *</label>
+                                    <select id="agama" required>
+                                        <option value="">Pilih...</option>
+                                        <option value="Islam">Islam</option>
+                                        <option value="Kristen">Kristen</option>
+                                        <option value="Katolik">Katolik</option>
+                                        <option value="Hindu">Hindu</option>
+                                        <option value="Buddha">Buddha</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Pendidikan Terakhir *</label>
+                                    <select id="pendidikan_terakhir" required>
+                                        <option value="">Pilih...</option>
+                                        <option value="SD">SD</option>
+                                        <option value="SMP">SMP</option>
+                                        <option value="SMA">SMA</option>
+                                        <option value="S1">S1</option>
+                                        <option value="S2">S2</option>
+                                        <option value="S3">S3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-next" onclick="nextStep(2)">Lanjut ke Data Pasangan</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="step" data-step="2">
+                        <h3>Data Pasangan (Opsional)</h3>
+                        <form id="form-pasangan">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Nama Pasangan</label>
+                                    <input type="text" id="nama_pasangan">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor KTP Pasangan</label>
+                                    <input type="text" id="ktp_pasangan" maxlength="16">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tempat, Tanggal Lahir Pasangan</label>
+                                    <div class="input-row">
+                                        <input type="text" id="tempat_lahir_pasangan" placeholder="Tempat lahir">
+                                        <input type="date" id="tanggal_lahir_pasangan">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat Pasangan</label>
+                                    <textarea id="alamat_pasangan"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor Telepon Pasangan</label>
+                                    <input type="tel" id="telepon_pasangan">
+                                </div>
+                                <div class="form-group">
+                                    <label>Pekerjaan Pasangan</label>
+                                    <input type="text" id="pekerjaan_pasangan">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(1)">Kembali</button>
+                                <button type="button" class="btn btn-next" onclick="nextStep(3)">Lanjut ke Ahli Waris</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="step" data-step="3">
+                        <h3>Data Ahli Waris (Bisa Multiple)</h3>
+                        <div id="ahli-waris-container">
+                            <div class="ahli-waris-item">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Nama Ahli Waris 1</label>
+                                        <input type="text" class="ahli-waris-nama">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>NIK Ahli Waris 1</label>
+                                        <input type="text" class="ahli-waris-ktp" maxlength="16">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Alamat Ahli Waris 1</label>
+                                        <textarea class="ahli-waris-alamat"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Telepon Ahli Waris 1</label>
+                                        <input type="tel" class="ahli-waris-telepon">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-remove" onclick="removeAhliWaris(this)">Hapus</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="addAhliWaris()">+ Tambah Ahli Waris</button>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-prev" onclick="prevStep(2)">Kembali</button>
+                            <button type="button" class="btn btn-next" onclick="nextStep(4)">Lanjut ke Rekening</button>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="4">
+                        <h3>Pembukaan Rekening</h3>
+                        <form id="form-rekening">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Nominal Setoran Awal *</label>
+                                    <input type="number" id="nominal_setoran" required min="10000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tanggal Pembukaan Rekening *</label>
+                                    <input type="date" id="tanggal_pembukaan" required>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(3)">Kembali</button>
+                                <button type="submit" class="btn btn-success" id="submit-registrasi">
+                                    <i class="fas fa-save"></i> Simpan Registrasi
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <form id="form-rekening">
+
+    <input type="hidden" id="edit_id">
+
+    <div class="form-group">
+        <label>Nomor Registrasi</label>
+        <input type="text" id="nomor_registrasi" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Nama Nasabah</label>
+        <input type="text" id="nama_lengkap" required>
+    </div>
+
+    <div class="form-group">
+        <label>NIK</label>
+        <input type="text" id="nomor_ktp" required>
+    </div>
+
+    <div class="form-group">
+        <label>Alamat</label>
+        <textarea id="alamat" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>No Telepon</label>
+        <input type="text" id="nomor_telepon" required>
+    </div>
+
+    <button type="submit">Simpan</button>
+
+</form>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Modal Detail Nasabah -->
+    <div id="modal-detail" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detail Nasabah</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
